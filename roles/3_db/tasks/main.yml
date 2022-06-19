@@ -1,0 +1,34 @@
+---
+- name: Installing mysql server
+  apt:
+    name: mysql-server
+    state: latest
+
+- name: Restarting Mysql
+  ansible.builtin.service:
+    name: mysql
+    state: started
+    enabled: yes
+
+- name: Change the authentication plugin of MySQL root user to mysql_native_password
+  shell: mysql -u root -e 'UPDATE mysql.user SET plugin="mysql_native_password" WHERE user="root" AND host="localhost"'
+
+- name: Flush Privileges
+  shell: mysql -u root -e 'FLUSH PRIVILEGES'
+
+- name: Set MySQL root password
+  mysql_user:
+    login_host: localhost
+    login_user: "{{ db_root_username }}"
+    login_password: ""
+    name: "{{ db_root_username }}"
+    password: "{{ db_root_password }}"
+    state: present
+
+- name: create database
+  mysql_db:
+    login_host: localhost
+    login_user: "{{ db_root_username }}"
+    login_password: "{{ db_root_password }}"
+    name: "{{ db_name }}"
+    state: present

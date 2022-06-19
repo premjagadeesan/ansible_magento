@@ -1,0 +1,23 @@
+---
+
+- name: Set Magento key in composer
+  shell: composer config --global http-basic.repo.magento.com {{ magento_public_key }} {{ magento_private_key }}
+
+- name:  Install magento using composer
+  block:
+  - composer:
+      command: create-project
+      arguments: --repository-url=https://repo.magento.com/ magento/project-community-edition=2.4.3 magento
+      working_dir: "/var/www/{{ domain_name }}"
+
+
+
+    
+# - name: Downloading.. magento using composer
+#   shell: composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition=2.4.3 magento2
+#   args:
+#     chdir: /var/www/{{ domain_name }}
+#     prompt:
+#       - *
+#     answer:
+#       - y

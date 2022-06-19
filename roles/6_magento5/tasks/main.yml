@@ -1,0 +1,15 @@
+---
+
+- name: Enable rewrite module
+  shell: /usr/sbin/a2enmod rewrite
+
+- name: change magento files permission
+  shell: sudo chown -R www-data:www-data /var/www/{{ domain_name }}/*
+
+- name: change magento files permission
+  shell: sudo chmod -R 777 /var/www/{{ domain_name }}/*
+
+- name: Restarting Apache(httpd) server
+  ansible.builtin.service:
+    name: apache2
+    state: restarted

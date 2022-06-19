@@ -1,0 +1,77 @@
+---
+
+- name: Install apache web-server
+  become: true
+  become_method: sudo
+  hosts: all
+  remote_user: "{{ remote_user }}"
+  roles: 
+    - 1_apache
+
+- name: Install Python
+  become: true
+  become_method: sudo
+  hosts: all
+  remote_user: "{{ remote_user }}"
+  roles: 
+    - 2_python
+
+- name: Install MySql
+  become: true
+  become_method: sudo
+  hosts: all
+  remote_user: "{{ remote_user }}"
+  roles: 
+    - 3_db
+
+- name: Install php
+  become: true
+  become_method: sudo
+  hosts: all
+  remote_user: "{{ remote_user }}"
+  roles: 
+    - 4_php
+
+- name: Install elasticsearch
+  become: true
+  become_method: sudo
+  hosts: all
+  remote_user: "{{ remote_user }}"
+  roles: 
+    - 5_elasticsearch
+
+- name: Install Composer
+  become: true
+  become_method: sudo
+  hosts: all
+  remote_user: "{{ remote_user }}"
+  roles: 
+    - 6_composer
+
+- name: Install Magento2
+  hosts: all
+  remote_user: "{{ remote_user }}"
+  roles: 
+    - 6_magento2
+
+- name: Install Magento3
+  become: true
+  become_method: sudo
+  hosts: all
+  remote_user: "{{ remote_user }}"
+  roles: 
+    - 6_magento3
+
+- name: Install Magento4
+  hosts: all
+  remote_user: "{{ remote_user }}"
+  roles: 
+    - 6_magento4
+
+# - name: Install Magento5
+#   become: true
+#   become_method: sudo
+#   hosts: all
+#   remote_user: "{{ remote_user }}"
+#   roles: 
+#     - 6_magento5

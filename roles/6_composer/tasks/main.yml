@@ -1,0 +1,18 @@
+---
+
+- name: Downloading.. composer
+  raw: php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+
+- name: installing.. composer
+  raw: sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+
+# - name: change magento files permission
+#   shell: sudo chown -R www-data:www-data /var/www/{{ domain_name }}
+
+# - name: change magento files permission
+#   shell: sudo chmod -R 777 /var/www/{{ domain_name }}
+
+
+# - name: install composer
+#   apt: 
+#     name: composer

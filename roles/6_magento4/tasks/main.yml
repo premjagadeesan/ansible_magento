@@ -1,0 +1,57 @@
+---
+
+# - name: Installing.. magento
+#   shell: php bin/magento setup:install --base-url="http://{{ domain_name }}" --db-host="{{ db_host }}" --db-name="{{ db_name }}" --db-user="{{ db_user }}" --db-password="{{ db_user_password }}" --admin-firstname="{{ admin_firstname }}" --admin-lastname="{{ admin_lastname }}" --admin-email="{{ admin_mailid }}" --admin-user="{{ admin_username }}" --admin-password="{{ admin_password }}" --language="en_US" --use-rewrites="1"
+#   args:
+#     chdir: /var/www/{{ domain_name }}
+#   register: output
+
+- name: Installing.. magento
+  shell: sudo php bin/magento setup:install --base-url=http://{{ domain_name }} --db-host=localhost --db-name={{ db_name }} --db-user={{ db_root_username }} --db-password={{ db_root_password }} --admin-firstname=admin --admin-lastname=admin --admin-email={{ email_id }} --admin-user={{ magento_admin_username }} --admin-password={{ magento_admin_password }} --language=en_US --currency=USD --timezone=America/Chicago --backend-frontname=admin --use-rewrites=1 --search-engine=elasticsearch7 --elasticsearch-host=localhost --elasticsearch-port=9200
+  args:
+    chdir: /var/www/{{ domain_name }}/magento
+  register: output
+
+- name: Printing.. output of magento installation
+  debug:
+    msg: " {{ output.stdout }}"
+
+- name: Restarting Apache2(httpd) server
+  become: true
+  become_method: sudo
+  ansible.builtin.service:
+    name: apache2
+    state: restarted
+
+- name: disable Magento_TwoFactorAuth
+  shell: sudo php bin/magento module:disable Magento_TwoFactorAuth
+  args:
+    chdir: /var/www/{{ domain_name }}/magento
+  register: output
+
+- name: Restarting Apache2(httpd) server
+  become: true
+  become_method: sudo
+  ansible.builtin.service:
+    name: apache2
+    state: restarted
+    
+- name: run magento default group cron job
+  shell: sudo bin/magento cron:install
+  args:
+    chdir: /var/www/{{ domain_name }}/magento
+  register: output
+    
+- name: run magento default group cron job
+  shell: sudo bin/magento cron:run --group default
+  args:
+    chdir: /var/www/{{ domain_name }}/magento
+  register: output
+
+- name: Restarting Apache2(httpd) server
+  become: true
+  become_method: sudo
+  ansible.builtin.service:
+    name: apache2
+    state: restarted
+    

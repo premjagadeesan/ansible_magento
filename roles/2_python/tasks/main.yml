@@ -1,0 +1,12 @@
+---
+
+- name: Installing.. python3
+  apt:
+    name: python3.8
+
+- name: Install.. pip
+  raw: sudo apt install python3-pip -y
+
+- name: Installing.. pymysql
+  pip:
+    name: pymysql

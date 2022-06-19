@@ -1,0 +1,96 @@
+---
+
+# - name: moving.. files 
+#   shell: sudo cp -r /var/www/{{ domain_name }}/project-*/* /var/www/{{ domain_name }}
+
+# - name: change magento files permission
+#   shell: sudo chown -R www-data:www-data /var/www/{{ domain_name }}/*
+
+# - name: change magento files permission
+#   shell: sudo chmod -R 777 /var/www/{{ domain_name }}/*
+
+# - name: change magento files permission
+#   shell: sudo chown -R www-data:www-data /var/www/{{ domain_name }}/app/*
+
+# - name: change magento files permission
+#   shell: sudo chmod -R 777 /var/www/{{ domain_name }}/app/*
+
+# - name: change magento files permission
+#   shell: sudo chown -R www-data:www-data /var/www/{{ domain_name }}/bin/*
+
+# - name: change magento files permission
+#   shell: sudo chmod -R 777 /var/www/{{ domain_name }}/bin/*
+
+# - name: change magento files permission
+#   shell: sudo chown -R www-data:www-data /var/www/{{ domain_name }}/dev/*
+
+# - name: change magento files permission
+#   shell: sudo chmod -R 777 /var/www/{{ domain_name }}/dev/*
+
+# - name: change magento files permission
+#   shell: sudo chown -R www-data:www-data /var/www/{{ domain_name }}/generated/
+
+# - name: change magento files permission
+#   shell: sudo chmod -R 777 /var/www/{{ domain_name }}/generated/
+
+# - name: change magento files permission
+#   shell: sudo chown -R www-data:www-data /var/www/{{ domain_name }}/lib/*
+
+# - name: change magento files permission
+#   shell: sudo chmod -R 777 /var/www/{{ domain_name }}/lib/*
+
+# - name: change magento files permission
+#   shell: sudo chown -R www-data:www-data /var/www/{{ domain_name }}/phpserver/*
+
+# - name: change magento files permission
+#   shell: sudo chmod -R 777 /var/www/{{ domain_name }}/phpserver/*
+
+# - name: change magento files permission
+#   shell: sudo chown -R www-data:www-data /var/www/{{ domain_name }}/pub/*
+
+# - name: change magento files permission
+#   shell: sudo chmod -R 777 /var/www/{{ domain_name }}/pub/*
+
+# - name: change magento files permission
+#   shell: sudo chown -R www-data:www-data /var/www/{{ domain_name }}/setup/*
+
+# - name: change magento files permission
+#   shell: sudo chmod -R 777 /var/www/{{ domain_name }}/setup/*
+
+# - name: change magento files permission
+#   shell: sudo chown -R www-data:www-data /var/www/{{ domain_name }}/var/*
+
+# - name: change magento files permission
+#   shell: sudo chmod -R 777 /var/www/{{ domain_name }}/var/*
+
+# - name: change magento files permission
+#   shell: sudo chown -R www-data:www-data /var/www/{{ domain_name }}/vendor/*
+
+# - name: change magento files permission
+#   shell: sudo chmod -R 777 /var/www/{{ domain_name }}/vendor/*
+
+# - name: change magento files permission
+#   shell: sudo chown -R www-data:www-data /var/www/{{ domain_name }}/*
+
+
+
+
+- name: setup magento files
+  shell: sudo find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
+  args:
+    chdir: /var/www/{{ domain_name }}/magento
+
+- name: setup magento files
+  shell: sudo find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
+  args:
+    chdir: /var/www/{{ domain_name }}/magento
+
+- name: setup magento files
+  shell: sudo chown -R {{ remote_user }}:www-data .
+  args:
+    chdir: /var/www/{{ domain_name }}/magento
+
+- name: setup magento files
+  shell: sudo chmod u+x bin/magento
+  args:
+    chdir: /var/www/{{ domain_name }}/magento

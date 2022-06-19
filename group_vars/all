@@ -1,0 +1,25 @@
+---
+#server
+# server_ip: 65.0.32.250
+
+#Apache
+# domain_name: test1.selfinstaller.com
+# apache_port: 80
+
+#database
+# root_user: root
+# root_user_password: abcd
+# db_host: localhost
+
+#magento
+# magento_account_public_key: a7216ab58e04de3554541959136c3a21
+# magento_account_private_key: 8b91702d81636f94e1c064ad29b67aba
+# admin_firstname: admin
+# admin_lastname: admin
+# admin_mailid: test1@gmail.com
+# admin_username: admin
+# admin_password: Milestone#1
+# version: 2.4.2
+
+# php
+# php_version: 7.4

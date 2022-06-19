@@ -1,0 +1,69 @@
+
+---
+
+- name: Add an Apt signing key
+  ansible.builtin.apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+
+- name: create ELK stack repo
+  template:
+    src: elastic-7.x.list.j2
+    dest: /etc/apt/sources.list.d/elastic-7.x.list
+
+- name: apt-get update
+  raw: sudo apt-get update
+
+- name: install curl
+  raw: sudo apt install -y curl
+
+- name: Installing.. java
+  apt:
+    name: openjdk-17-jdk
+
+- name: installing.. apt-transport-https
+  apt:
+    name: apt-transport-https
+
+- name: Installing elasticsearch...
+  apt: 
+    name: elasticsearch
+    state: present
+
+- name: start the elasticsearch service
+  ansible.builtin.service:
+    name: elasticsearch
+    state: started
+    enabled: yes
+
+- name: configuring elasticsearch.yml
+  blockinfile:
+    path: /etc/elasticsearch/elasticsearch.yml
+    block: |
+      node.name: "My First Node"
+      cluster.name: my-application
+      network.host: 127.0.0.1
+      http.port: 9200
+
+- name: configuring jvm.options
+  blockinfile:
+    path: /etc/elasticsearch/jvm.options
+    block: |
+      -Xms256m
+      -Xmx256m
+
+- name: systemctl daemon-reload
+  raw: sudo systemctl daemon-reload
+
+- name: restart the elasticsearch service
+  ansible.builtin.service:
+    name: elasticsearch 
+    state: restarted
+
+- name: Installing certificate in nginx
+  raw: curl -X GET 'http://localhost:9200'
+  register: result
+
+- name: Printing.. output
+  debug:
+    msg: "{{ result.stdout }}"

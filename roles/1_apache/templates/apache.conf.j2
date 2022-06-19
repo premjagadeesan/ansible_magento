@@ -1,0 +1,16 @@
+<VirtualHost *:80>
+    ServerName {{ domain_name }}
+    DocumentRoot /var/www/{{ domain_name }}/magento/pub
+    ErrorLog ${APACHE_LOG_DIR}/error-{{ domain_name }}.log
+    CustomLog ${APACHE_LOG_DIR}/access-{{ domain_name }}.log combined
+    AllowEncodedSlashes NoDecode
+
+    <Directory "/var/www/{{ domain_name }}">
+        AllowOverride all
+    </Directory>
+
+     <IfModule mod_dir.c>
+        DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
+    </IfModule>
+
+</VirtualHost>
